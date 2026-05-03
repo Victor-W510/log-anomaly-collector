@@ -2,6 +2,7 @@ package org.example.loganomaly.schedules;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.example.loganomaly.service.LogGeneratorService;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -10,9 +11,30 @@ import org.springframework.stereotype.Component;
 public class Schedule {
 
 
-    @Scheduled(fixedRate = 5000)
-    public void savingGoodLog(){
-        log.info("savingGoodLog");
+    private final LogGeneratorService logGeneratorService;
+
+    public Schedule(LogGeneratorService logGeneratorService) {
+        this.logGeneratorService = logGeneratorService;
+    }
+
+
+    @Scheduled(cron = "0/5 * * * * ?")
+    public void savingGoodLog() throws InterruptedException {
+
+        logGeneratorService.generateGoodLogs();
+    }
+
+    @Scheduled(cron = "0/30 * * * * ?")
+    public void savingRandom() {
+
+        logGeneratorService.generateBadLogs();
+    }
+
+    @Scheduled(cron = "0 * * * * ?")
+    public void attack(){
+        if (Math.random() < 0.2) {
+            logGeneratorService.generateTrafficSpike();
+        }
     }
 
 

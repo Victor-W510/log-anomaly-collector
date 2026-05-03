@@ -49,7 +49,7 @@ class LogAnomalyApplicationTests {
 
     @Test
     void ddos_shouldGenerateMultipleLogs() {
-        service.ddos();
+        service.generateTrafficSpike();
 
         verify(repository, atLeast(10)).save(any(LogEntity.class));
     }
