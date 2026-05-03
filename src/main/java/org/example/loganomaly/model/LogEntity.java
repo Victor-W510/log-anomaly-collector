@@ -19,7 +19,7 @@ public class LogEntity {
     private Long id;
     private LocalDateTime timestamp;
     @Enumerated(EnumType.STRING)
-    private String level;
+    private Level level;
     private Integer pid;
     private String thread;
     private String logger;
