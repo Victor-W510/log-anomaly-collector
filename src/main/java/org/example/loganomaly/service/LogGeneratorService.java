@@ -31,7 +31,7 @@ public class LogGeneratorService {
         long end = System.currentTimeMillis() - start;
 
         if (random < 0.2) {
-            message = "User request processed successfully successfully";
+            message = "User request processed successfully";
             log.info("{}, responsTime {} ms", message, end);
         } else if (random < 0.4) {
             message = "Starting service [Tomcat]";
@@ -90,19 +90,17 @@ public class LogGeneratorService {
             log.debug(message);
             level = Level.DEBUG;
 
-        }else if (random < 0.5) {
-            level = Level.ERROR;
+        }else if (random < 0.8) {
+            level = Level.INFO;
             message = "SQL CHANGE orderId=55 from=CREATED to=PAID";
             log.info(message);
 
-
         }else{
-            level = Level.ERROR;
-            message = "SYSTEM_ANOMALY memory_usage=99% 12345678902 " +
-                    "SYSTEM_ANOMALY memory_usage=99% 12345678902 " +
-                    "SYSTEM_ANOMALY memory_usage=99% 12345678902 " +
-                    "SYSTEM_ANOMALY memory_usage=99% 12345678902";
-            log.error(message);
+            level = Level.WARN;
+            message = "ERROR DatabaseException: could not execute query; " +
+                    "SQL [SELECT id, username, email FROM users WHERE username = 'admin' OR '1'='1' --' AND password = 'secret']; " +
+                    "nested exception is org.hibernate.exception.SQLGrammarException: could not execute statement;";
+            log.warn(message);
         }
 
 

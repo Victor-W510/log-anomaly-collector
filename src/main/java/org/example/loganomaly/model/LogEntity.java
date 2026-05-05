@@ -27,6 +27,7 @@ public class LogEntity {
     @Column(length = 500)
     private String message;
     private long responseTime;
+    private boolean processed = false;
 
     public LogEntity() {
 

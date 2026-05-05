@@ -18,7 +18,7 @@ public class Schedule {
     }
 
 
-    @Scheduled(cron = "0/5 * * * * ?")
+    @Scheduled(cron = "0/10 * * * * ?")
     public void savingGoodLog() throws InterruptedException {
 
         logGeneratorService.generateGoodLogs();
