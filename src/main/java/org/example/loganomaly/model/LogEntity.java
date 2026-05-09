@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class LogEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDateTime timestamp;
     @Enumerated(EnumType.STRING)
