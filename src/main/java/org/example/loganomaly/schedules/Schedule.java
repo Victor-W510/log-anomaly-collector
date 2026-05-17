@@ -23,7 +23,7 @@ public class Schedule {
         logGeneratorService.generateGoodLogs();
     }
 
-    @Scheduled(cron = "0 0/2 * * * ?")
+    @Scheduled(cron = "0 0/5 * * * ?")
     public void savingRandom() {
 
         logGeneratorService.generateBadLogs();
