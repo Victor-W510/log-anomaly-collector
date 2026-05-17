@@ -25,7 +25,6 @@ public class LogGeneratorService {
 
         double random = Math.random();
         String message;
-        Level level = Level.INFO;
         long start = System.currentTimeMillis();
         Thread.sleep((long) (Math.random() * 100));
         long end = System.currentTimeMillis() - start;
@@ -42,13 +41,12 @@ public class LogGeneratorService {
         }else if (random < 0.8) {
             message = "Payment_failed reason=card_declined card_declined";
             log.info(message);
-            level = Level.WARN;
         }else{
             message = "User_login userId=44";
             log.info("{}, responsTime {} ms", message, end);
         }
 
-        saveLog(level, message, start);
+        saveLog(Level.INFO, message, start);
 
     }
 
