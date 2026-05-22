@@ -17,7 +17,7 @@ public class Schedule {
         this.logGeneratorService = logGeneratorService;
     }
 
-    @Scheduled(cron = "*/10 * * * * ?")
+    @Scheduled(cron = "0/20 *  * * * ?")
     public void savingGoodLog() throws InterruptedException {
 
         logGeneratorService.generateGoodLogs();
@@ -29,12 +29,11 @@ public class Schedule {
         logGeneratorService.generateBadLogs();
     }
 
-    @Scheduled(cron = "0 30 * * * ?")
+    @Scheduled(cron = "0 0/2 * * * ?")
     public void attack(){
         if (Math.random() < 0.2) {
             logGeneratorService.generateTrafficSpike();
         }
     }
-
 
 }

@@ -14,7 +14,6 @@ import java.util.concurrent.Executors;
 public class LogGeneratorService {
 
 
-    private final ExecutorService executor = Executors.newFixedThreadPool(10);
     private final Repository repository;
 
     public LogGeneratorService(Repository repository) {
@@ -66,6 +65,8 @@ public class LogGeneratorService {
     }
 
     public void generateTrafficSpike(){
+
+        ExecutorService executor = Executors.newFixedThreadPool(10);
         for (int i = 0; i < 50; i++) {
             executor.submit(() -> {
                 try {
