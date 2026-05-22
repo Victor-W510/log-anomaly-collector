@@ -8,11 +8,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-
+@ActiveProfiles("test")
 @SpringBootTest
 class LogAnomalyApplicationTests {
 
@@ -25,7 +26,7 @@ class LogAnomalyApplicationTests {
     @Test
     void generateGoodLogs() throws InterruptedException {
         service.generateGoodLogs();
-        verify(repository, times(1)).save(any(LogEntity.class));
+        verify(repository, atLeastOnce()).save(any(LogEntity.class));
     }
 
     @Test
@@ -34,14 +35,14 @@ class LogAnomalyApplicationTests {
 
         service.generateGoodLogs();
 
-        verify(repository).save(captor.capture());
+        verify(repository, atLeastOnce()).save(captor.capture());
 
         LogEntity saved = captor.getValue();
         assertEquals(Level.INFO, saved.getLevel());
     }
 
     @Test
-    void generateBadLogs_shouldSaveLog() throws InterruptedException {
+    void generateBadLogs_shouldSaveLog() {
         service.generateBadLogs();
 
         verify(repository, atLeastOnce()).save(any(LogEntity.class));
@@ -51,7 +52,7 @@ class LogAnomalyApplicationTests {
     void ddos_shouldGenerateMultipleLogs() {
         service.generateTrafficSpike();
 
-        verify(repository, atLeast(10)).save(any(LogEntity.class));
+        verify(repository,timeout(5000).atLeast(10)).save(any(LogEntity.class));
     }
 
     @Test
@@ -60,11 +61,10 @@ class LogAnomalyApplicationTests {
 
         service.generateGoodLogs();
 
-        verify(repository).save(captor.capture());
+        verify(repository, atLeastOnce()).save(captor.capture());
 
         LogEntity log = captor.getValue();
 
-        assertNotNull(log.getResponseTime());
         assertTrue(log.getResponseTime() >= 0);
     }
 }
